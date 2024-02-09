@@ -30639,6 +30639,7 @@
 	<item component="ComponentInfo{com.paradyme.solarsmash/com.unity3d.player.UnityPlayerActivity}" drawable="solar_smash"/>
 
 
+
 	<!-- Ça va où? -->
 	<item component="ComponentInfo{ca.qc.gouv.recycquebec.appmobile/ca.qc.gouv.recycquebec.appmobile.MainActivity}" drawable="ca_va_ou"/>
 
