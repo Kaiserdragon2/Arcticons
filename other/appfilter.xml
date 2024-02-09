@@ -30638,8 +30638,6 @@
 	<!-- Solar Smash -->
 	<item component="ComponentInfo{com.paradyme.solarsmash/com.unity3d.player.UnityPlayerActivity}" drawable="solar_smash"/>
 	
-	<!-- Shadow Fight 4 -->
-	<item component="ComponentInfo{com.nekki.shadowfightarena/com.nekki.unityplugins.NekkiNativeActivity}" drawable="shadow_fight_4"/>
 
 	<!-- Ça va où? -->
 	<item component="ComponentInfo{ca.qc.gouv.recycquebec.appmobile/ca.qc.gouv.recycquebec.appmobile.MainActivity}" drawable="ca_va_ou"/>
