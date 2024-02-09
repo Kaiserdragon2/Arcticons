@@ -70,6 +70,7 @@
 	<!-- 1822TAN+ -->
 	<item component="ComponentInfo{de.direkt1822.tanplus/de.direkt1822.tanplus.MainActivity}" drawable="_1822tan"/>
 
+
 	<!-- 1945 Air Force -->
 	<item component="ComponentInfo{com.os.airforce/com.google.firebase.MessagingUnityPlayerActivity}" drawable="_1945airforce"/>
 
