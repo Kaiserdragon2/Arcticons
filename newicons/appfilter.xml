@@ -121,6 +121,7 @@
 
 	<!-- Jupiter -->
 	<item component="ComponentInfo{money.jupiter/money.jupiter.MainActivity}" drawable="jupiter"/>
+	
 
 	<!-- $HELL -->
 	<item component="ComponentInfo{in.ac.dducollegedu.shell/in.ac.dducollegedu.shell.MainActivity}" drawable="shell_terminal"/>
