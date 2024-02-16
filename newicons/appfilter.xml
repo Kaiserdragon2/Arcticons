@@ -122,8 +122,14 @@
 	<!-- Jupiter -->
 	<item component="ComponentInfo{money.jupiter/money.jupiter.MainActivity}" drawable="jupiter"/>
 	
+	<!-- Widgetable -->
+	<item component="ComponentInfo{com.widgetable.theme.android/com.widgetable.theme.android.ui.MainActivity}" drawable="widgetable"/>
 	
+	<!-- Shadow Fight 4 -->
+	<item component="ComponentInfo{com.nekki.shadowfightarena/com.nekki.unityplugins.NekkiNativeActivity}" drawable="shadow_fight_4"/>
 	
+	<!-- Solar Smash -->
+	<item component="ComponentInfo{com.paradyme.solarsmash/com.unity3d.player.UnityPlayerActivity}" drawable="solar_smash"/>
 
 	<!-- $HELL -->
 	<item component="ComponentInfo{in.ac.dducollegedu.shell/in.ac.dducollegedu.shell.MainActivity}" drawable="shell_terminal"/>
