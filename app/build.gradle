@@ -101,6 +101,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding true
     }
     namespace 'com.donnnno.arcticons'
