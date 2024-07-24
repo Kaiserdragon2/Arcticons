@@ -29,7 +29,6 @@ failedmails/
 
 failedmail.txt
 local.properties
-gradlew
 gradlew.bat
 .DS_Store
 bundletool.jar
