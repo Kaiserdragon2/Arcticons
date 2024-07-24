@@ -42,6 +42,12 @@ jobs:
               with:
                   name: Debug APK
                   path: |
-                    app/build/outputs/
+                    app/build/outputs/apk/app/debug/black/debug/*.apk
+                    app/build/outputs/apk/app/debug/blackPlay/debug/*.apk
+                    app/build/outputs/apk/app/debug/dayNight/debug/*.apk
+                    app/build/outputs/apk/app/debug/normal/debug/*.apk
+                    app/build/outputs/apk/app/debug/normalPlay/debug/*.apk
+                    app/build/outputs/apk/app/debug/you/debug/*.apk
+                    app/build/outputs/apk/app/debug/youPlay/debug/*.apk
 
                   
