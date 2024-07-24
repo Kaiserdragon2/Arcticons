@@ -21,8 +21,11 @@ jobs:
                 java-version: 21
                 cache: gradle
 
+            - name: Write Owner Name
+              run:
+                echo ${{github.repository_owner}}
+              if: github.repository_owner == 'Kaiserdragon2'
             - name: Write sign info
-              if: github.repository_owner == 'TEST'
               run: |
                   if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
                     echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
@@ -42,12 +45,12 @@ jobs:
               with:
                   name: Debug APK
                   path: |
-                    app/build/outputs/apk/app/debug/black/debug/*.apk
-                    app/build/outputs/apk/app/debug/blackPlay/debug/*.apk
-                    app/build/outputs/apk/app/debug/dayNight/debug/*.apk
-                    app/build/outputs/apk/app/debug/normal/debug/*.apk
-                    app/build/outputs/apk/app/debug/normalPlay/debug/*.apk
-                    app/build/outputs/apk/app/debug/you/debug/*.apk
-                    app/build/outputs/apk/app/debug/youPlay/debug/*.apk
+                    app/build/outputs/apk/app/black/debug/*.apk
+                    app/build/outputs/apk/app/blackPlay/debug/*.apk
+                    app/build/outputs/apk/app/dayNight/debug/*.apk
+                    app/build/outputs/apk/app/normal/debug/*.apk
+                    app/build/outputs/apk/app/normalPlay/debug/*.apk
+                    app/build/outputs/apk/app/you/debug/*.apk
+                    app/build/outputs/apk/app/youPlay/debug/*.apk
 
                   
