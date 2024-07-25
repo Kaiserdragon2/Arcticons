@@ -1,10 +1,7 @@
-name: Build APK
+name: Build Debug APK
 
 on: 
   workflow_dispatch:
-  push:
-    tags:
-      - "*"  
 
 jobs:
     build:
@@ -40,18 +37,7 @@ jobs:
                     app/build/outputs/apk/normalPlay/debug/*.apk
                     app/build/outputs/apk/you/debug/*.apk
                     app/build/outputs/apk/youPlay/debug/*.apk
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              if: startsWith(github.ref, 'refs/tags/')
-              with:
-                files: |
-                  app/build/outputs/apk/black/debug/*.apk
-                  app/build/outputs/apk/blackPlay/debug/*.apk
-                  app/build/outputs/apk/dayNight/debug/*.apk
-                  app/build/outputs/apk/normal/debug/*.apk
-                  app/build/outputs/apk/normalPlay/debug/*.apk
-                  app/build/outputs/apk/you/debug/*.apk
-                  app/build/outputs/apk/youPlay/debug/*.apk
+
 
             
 
