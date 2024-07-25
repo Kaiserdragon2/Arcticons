@@ -53,20 +53,10 @@ jobs:
             - name: Get Release Notes
               id: image
               run: |
-                name=(cat generated/releaseName.txt)
+                name=$(cat generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
-                {
-                echo 'image<<EOF'
-                echo $(base64 generated/releaseImage.png) 
-                echo EOF
-                } >> $GITHUB_OUTPUT
-                echo "name=$name" >> $GITHUB_OUTPUT
-                {
-                echo "changelog<<EOF
-                echo $(cat generated/changelog.md)" 
-                echo EOF
-                } >> $GITHUB_OUTPUT
-        
+                image=$(base64 generated/releaseImage.png) 
+                changelog=$(cat generated/changelog.md)" 
                 gh release create $GITHUB_REF_NAME --draft --generate-notes --title $name --notes '$changelog <img src="data:image/png;base64,$image" />'
                   #app/build/outputs/apk/normal/release/*.apk
                   #app/build/outputs/apk/black/release/*.apk
