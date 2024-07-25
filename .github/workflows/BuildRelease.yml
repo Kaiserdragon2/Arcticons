@@ -50,16 +50,23 @@ jobs:
             #- name: Build Day&Night
             #  run: ./gradlew app:assembledayNightRelease
 
-            - name: Get Image
+            - name: Get Release Notes
               id: image
               run: |
+                EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+                name=(< generated/releaseName.txt)
+                name=$(echo $name | tr '\n' ' ')
                 {
-                echo 'image=EOF'
+                echo 'image=$EOF'
                 echo $(base64 generated/releaseImage.png) 
-                echo EOF
+                echo $EOF
                 } >> $GITHUB_OUTPUT
-                echo "name=(< generated/releaseName.txt)" >> $GITHUB_OUTPUT
-                echo "changelog=$(< generated/changelog.md)" >> $GITHUB_OUTPUT
+                echo "name=$name" >> $GITHUB_OUTPUT
+                {
+                echo "changelog=$EOF
+                echo $(< generated/changelog.md)" 
+                echo $EOF
+                } >> $GITHUB_OUTPUT
             - name: Draft Release
               run: gh release create $GITHUB_REF_NAME --draft --generate-notes --name ${{ steps.vars.outputs.name }} --notes '${{ steps.vars.outputs.changelog }}<img src="data:image/png;base64,${{ steps.vars.outputs.image }}" />' generated/changelog.md
                   #app/build/outputs/apk/normal/release/*.apk
