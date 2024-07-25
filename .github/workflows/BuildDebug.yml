@@ -1,13 +1,15 @@
 name: Build APK
 
-on:
-    release:
-        types: [published]
-    workflow_dispatch:     
+on: 
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"  
 
 jobs:
     build:
         name: Build Arcticons APK
+        if: github.repository_owner == 'Test'
         runs-on: ubuntu-latest
 
         steps:
@@ -19,22 +21,7 @@ jobs:
               with:
                 distribution: 'zulu'
                 java-version: 21
-                cache: gradle
-
-            - name: Write Owner Name
-              run:
-                echo ${{github.repository_owner}}
-                echo ${{github.ref}}
-              if: github.repository_owner == 'Kaiserdragon2'
-            - name: Write sign info
-              run: |
-                  if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
-                    echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
-                    echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
-                    echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
-                    echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
-                    echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
-                  fi
+                cache: gradle          
             - name: Get Gradle
               run: gradle wrapper
             - name: Grant execute permission for gradlew
@@ -53,12 +40,19 @@ jobs:
                     app/build/outputs/apk/normalPlay/debug/*.apk
                     app/build/outputs/apk/you/debug/*.apk
                     app/build/outputs/apk/youPlay/debug/*.apk
-
             - name: Release
               uses: softprops/action-gh-release@v2
               if: startsWith(github.ref, 'refs/tags/')
               with:
-                files: app/build/outputs/apk/black/debug/*.apk
+                files: |
+                  app/build/outputs/apk/black/debug/*.apk
+                  app/build/outputs/apk/blackPlay/debug/*.apk
+                  app/build/outputs/apk/dayNight/debug/*.apk
+                  app/build/outputs/apk/normal/debug/*.apk
+                  app/build/outputs/apk/normalPlay/debug/*.apk
+                  app/build/outputs/apk/you/debug/*.apk
+                  app/build/outputs/apk/youPlay/debug/*.apk
+
             
 
                   
