@@ -66,8 +66,8 @@ jobs:
                 echo $(cat generated/changelog.md)" 
                 echo EOF
                 } >> $GITHUB_OUTPUT
-            - name: Draft Release
-              run: gh release create $GITHUB_REF_NAME --draft --generate-notes --title $steps.vars.outputs.name --notes '$steps.vars.outputs.changelog <img src="data:image/png;base64,$steps.vars.outputs.image" />'
+        
+                gh release create $GITHUB_REF_NAME --draft --generate-notes --title $name --notes '$changelog <img src="data:image/png;base64,$image" />'
                   #app/build/outputs/apk/normal/release/*.apk
                   #app/build/outputs/apk/black/release/*.apk
                   #app/build/outputs/apk/dayNight/release/*.apk
