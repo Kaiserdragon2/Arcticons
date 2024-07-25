@@ -47,7 +47,8 @@ jobs:
               run: ./gradlew app:assembleRelease
 
 
-            - run: gh release create $GITHUB_REF -- draft --generate-notes --discussion-category Announcements --notes-file generated/changelog.md
+            - name: Draft Release
+              run: gh release create $GITHUB_REF --draft --generate-notes --discussion-category Announcements --notes-file generated/changelog.md
                   app/build/outputs/apk/black/debug/*.apk
                   app/build/outputs/apk/blackPlay/debug/*.apk
                   app/build/outputs/apk/dayNight/debug/*.apk
