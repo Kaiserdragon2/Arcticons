@@ -53,19 +53,18 @@ jobs:
             - name: Get Release Notes
               id: image
               run: |
-                EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
                 name=(cat generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
                 {
-                echo 'image<<$EOF'
+                echo 'image<<EOF'
                 echo $(base64 generated/releaseImage.png) 
-                echo $EOF
+                echo EOF
                 } >> $GITHUB_OUTPUT
                 echo "name=$name" >> $GITHUB_OUTPUT
                 {
-                echo "changelog<<$EOF
+                echo "changelog<<EOF
                 echo $(cat generated/changelog.md)" 
-                echo $EOF
+                echo EOF
                 } >> $GITHUB_OUTPUT
             - name: Draft Release
               run: gh release create $GITHUB_REF_NAME --draft --generate-notes --name ${{ steps.vars.outputs.name }} --notes '${{ steps.vars.outputs.changelog }}<img src="data:image/png;base64,${{ steps.vars.outputs.image }}" />' generated/changelog.md
