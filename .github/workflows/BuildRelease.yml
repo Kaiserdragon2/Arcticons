@@ -56,13 +56,14 @@ jobs:
                 EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
                 name=(cat generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
-                image=$(base64 generated/releaseImage.png) 
-                image=$(echo $image | tr '\n' '')
                 {
-                echo 'image=$image' >> $GITHUB_OUTPUT
+                echo 'image<<$EOF'
+                echo $(base64 generated/releaseImage.png) 
+                echo $EOF
+                } >> $GITHUB_OUTPUT
                 echo "name=$name" >> $GITHUB_OUTPUT
                 {
-                echo "changelog=$EOF
+                echo "changelog<<$EOF
                 echo $(cat generated/changelog.md)" 
                 echo $EOF
                 } >> $GITHUB_OUTPUT
