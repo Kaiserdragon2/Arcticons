@@ -50,9 +50,17 @@ jobs:
             #- name: Build Day&Night
             #  run: ./gradlew app:assembledayNightRelease
 
-
+            - name: Get Image
+              id: image
+              run: |
+                image="$(cat generated/releaseImage.png | base64)"
+                name="$(< generated/releaseName.txt)"
+                changelog="$(< generated/changelog.md)"
+                echo "image=$image" >> $GITHUB_OUTPUT
+                echo "name=$name" >> $GITHUB_OUTPUT
+                echo "changelog=$changelog" >> $GITHUB_OUTPUT
             - name: Draft Release
-              run: gh release create $GITHUB_REF --draft --generate-notes --notes-file generated/changelog.md
+              run: gh release create $GITHUB_REF_NAME --draft --generate-notes --name ${{ steps.vars.outputs.name }} --notes '${{ steps.vars.outputs.changelog }}<img src="data:image/png;base64,${{ steps.vars.outputs.image }}" />' generated/changelog.md
                   app/build/outputs/apk/normal/release/*.apk
                   #app/build/outputs/apk/black/release/*.apk
                   #app/build/outputs/apk/dayNight/release/*.apk
