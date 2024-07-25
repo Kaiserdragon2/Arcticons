@@ -12,6 +12,8 @@ jobs:
         name: Build Arcticons APK
         if: startsWith(github.ref, 'refs/tags/')
         runs-on: ubuntu-latest
+        env:
+          GH_TOKEN: ${{ github.token }}
         steps:
             - name: Checking out branch
               uses: actions/checkout@v4
@@ -45,9 +47,14 @@ jobs:
               run: ./gradlew app:assembleRelease
 
 
-            - run: gh release upload $GITHUB_REF 
+            - run: gh release create $GITHUB_REF -- draft --generate-notes --discussion-category Announcements --notes-file generated/changelog.md
                   app/build/outputs/apk/black/debug/*.apk
                   app/build/outputs/apk/blackPlay/debug/*.apk
+                  app/build/outputs/apk/dayNight/debug/*.apk
+                  app/build/outputs/apk/normal/debug/*.apk
+                  app/build/outputs/apk/normalPlay/debug/*.apk
+                  app/build/outputs/apk/you/debug/*.apk
+                  app/build/outputs/apk/youPlay/debug/*.apk
             
 
                   
