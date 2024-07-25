@@ -55,7 +55,7 @@ jobs:
               run: |
                 {
                 echo 'image=EOF'
-                $(base64 generated/releaseImage.png) 
+                echo $(base64 generated/releaseImage.png) 
                 echo EOF
                 } >> $GITHUB_OUTPUT
                 echo "name=(< generated/releaseName.txt)" >> $GITHUB_OUTPUT
