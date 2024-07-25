@@ -54,7 +54,7 @@ jobs:
               id: image
               run: |
                 EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-                name=(< generated/releaseName.txt)
+                name=(cat generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
                 {
                 echo 'image=$EOF'
@@ -64,7 +64,7 @@ jobs:
                 echo "name=$name" >> $GITHUB_OUTPUT
                 {
                 echo "changelog=$EOF
-                echo $(< generated/changelog.md)" 
+                echo $(cat generated/changelog.md)" 
                 echo $EOF
                 } >> $GITHUB_OUTPUT
             - name: Draft Release
