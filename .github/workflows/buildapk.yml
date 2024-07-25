@@ -24,6 +24,7 @@ jobs:
             - name: Write Owner Name
               run:
                 echo ${{github.repository_owner}}
+                echo ${{github.ref}}
               if: github.repository_owner == 'Kaiserdragon2'
             - name: Write sign info
               run: |
@@ -53,12 +54,11 @@ jobs:
                     app/build/outputs/apk/you/debug/*.apk
                     app/build/outputs/apk/youPlay/debug/*.apk
 
-            - name: Upload to Release Action
-              uses: Shopify/upload-to-release@v2.0.0
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              if: startsWith(github.ref, 'refs/tags/')
               with:
-                name: APK Upload
-                repo-token: ${{ secrets.GITHUB_TOKEN }}
-                path: app/build/outputs/apk/black/debug/*.apk
+                files: app/build/outputs/apk/black/debug/*.apk
             
 
                   
