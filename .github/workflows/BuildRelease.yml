@@ -41,14 +41,14 @@ jobs:
               run: gradle wrapper
             - name: Grant execute permission for gradlew
               run: chmod +x gradlew
-            #- name: Build Normal APK
-            #  run: ./gradlew app:assemblenormalRelease
-            #- name: Build Black APK
-            #  run: ./gradlew app:assembleblackRelease
-            #- name: Build You APK
-            #  run: ./gradlew app:assembleyouRelease
-            #- name: Build Day&Night
-            #  run: ./gradlew app:assembledayNightRelease
+            - name: Build Normal APK
+              run: ./gradlew app:assemblenormalRelease
+            - name: Build Black APK
+              run: ./gradlew app:assembleblackRelease
+            - name: Build You APK
+              run: ./gradlew app:assembleyouRelease
+            - name: Build Day&Night
+              run: ./gradlew app:assembledayNightRelease
 
             - name: Get Release Notes
               id: image
@@ -61,11 +61,11 @@ jobs:
                 echo $GITHUB_REF_NAME
                 echo $name
                 echo $changelog
-                gh release create $GITHUB_REF_NAME --draft --generate-notes --title $name --notes $changelog
-                  #app/build/outputs/apk/normal/release/*.apk
-                  #app/build/outputs/apk/black/release/*.apk
-                  #app/build/outputs/apk/dayNight/release/*.apk
-                  #app/build/outputs/apk/you/release/*.apk
+                gh release create $GITHUB_REF_NAME --generate-notes --title $name --notes $changelog --discussion-category "Announcements"
+                  app/build/outputs/apk/normal/release/*.apk
+                  app/build/outputs/apk/black/release/*.apk
+                  app/build/outputs/apk/dayNight/release/*.apk
+                  app/build/outputs/apk/you/release/*.apk
               env:
                 GH_TOKEN: ${{ github.token }}
             
