@@ -60,11 +60,7 @@ jobs:
                 echo $GITHUB_REF_NAME
                 echo $name
                 echo $changelog
-                gh release create $GITHUB_REF_NAME --generate-notes --title "$name" --notes "$changelog" --discussion-category "Announcements"
-                  app/build/outputs/apk/normal/release/*.apk
-                  app/build/outputs/apk/black/release/*.apk
-                  app/build/outputs/apk/dayNight/release/*.apk
-                  app/build/outputs/apk/you/release/*.apk
+                gh release create $GITHUB_REF_NAME --generate-notes --title "$name" --notes "$changelog" --discussion-category "Announcements" app/build/outputs/apk/normal/release/*.apk app/build/outputs/apk/black/release/*.apk app/build/outputs/apk/dayNight/release/*.apk app/build/outputs/apk/you/release/*.apk
 
               env:
                 GH_TOKEN: ${{ github.token }}

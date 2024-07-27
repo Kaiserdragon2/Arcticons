@@ -34,6 +34,9 @@ android {
 }
 
     buildTypes {
+        configureEach {
+            signingConfig = releaseSigning
+        }
         release {
             minifyEnabled false
         }
