@@ -56,8 +56,7 @@ jobs:
                 name=$(cat generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
                 image="\![releaseImage](https://github.com/Arcticons-Team/Arcticons/blob/$GITHUB_REF_NAME/generated/releaseImage.jpg)"
-
-                changelog=$(cat generated/changelog.md)" 
+                changelog=$(cat generated/changelog.md)
                 gh release create $GITHUB_REF_NAME --draft --generate-notes --title $name --notes '$changelog $image'
                   #app/build/outputs/apk/normal/release/*.apk
                   #app/build/outputs/apk/black/release/*.apk
