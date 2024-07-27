@@ -15,40 +15,6 @@ jobs:
         steps:
             - name: Checking out branch
               uses: actions/checkout@v4
-            
-            - name: Setup Java
-              uses: actions/setup-java@v4
-              with:
-                distribution: 'zulu'
-                java-version: 21
-                cache: gradle
-
-            - name: Write Owner Name
-              run:
-                echo ${{github.repository_owner}}
-                echo ${{github.ref}}
-              if: github.repository_owner == 'Kaiserdragon2'
-            - name: Write sign info
-              run: |
-                  if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
-                    echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
-                    echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
-                    echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
-                    echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
-                    echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
-                  fi
-            - name: Get Gradle
-              run: gradle wrapper
-            - name: Grant execute permission for gradlew
-              run: chmod +x gradlew
-            - name: Build Normal APK
-              run: ./gradlew app:assemblenormalRelease
-            - name: Build Black APK
-              run: ./gradlew app:assembleblackRelease
-            - name: Build You APK
-              run: ./gradlew app:assembleyouRelease
-            - name: Build Day&Night
-              run: ./gradlew app:assembledayNightRelease
 
             - name: Get Release Notes
               id: image
@@ -62,10 +28,7 @@ jobs:
                 echo $name
                 echo $changelog
                 gh release create $GITHUB_REF_NAME --generate-notes --title $name --notes $changelog --discussion-category "Announcements"
-                  app/build/outputs/apk/normal/release/*.apk
-                  app/build/outputs/apk/black/release/*.apk
-                  app/build/outputs/apk/dayNight/release/*.apk
-                  app/build/outputs/apk/you/release/*.apk
+
               env:
                 GH_TOKEN: ${{ github.token }}
             
