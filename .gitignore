@@ -5,7 +5,7 @@
 *.log
 *.dex
 *.pro
-
+*.jks
 *~
 
 bin/
@@ -40,4 +40,3 @@ freedesktop-theme/arcticons*
 /app/src/main/assets/contributors/downloaded
 app/src/main/res/xml/contributors.xml
 keystore.properties
-key.jks
