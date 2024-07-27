@@ -6,7 +6,7 @@ on:
 jobs:
     build:
         name: Build Arcticons APK
-        if: github.repository_owner == 'Test'
+        if: github.repository_owner == 'Kaiserdragon2'
         runs-on: ubuntu-latest
 
         steps:
