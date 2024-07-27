@@ -47,11 +47,12 @@ jobs:
             - name: Get Release Notes
               id: image
               run: |
-                name=$(cat ./generated/releaseName.txt)
+                name=$(< ./generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
                 image="![releaseImage](https://github.com/Kaiserdragon2/Arcticons/blob/$GITHUB_REF_NAME/generated/releaseImage.jpg)"
-                changelog=$(cat ./generated/changelog.md)
-                changelog="$changelog \n $image"
+                changelog=$(< ./generated/changelog.md)
+                changelog="$changelog 
+                 $image"
                 gh release create $GITHUB_REF_NAME --generate-notes --title "$name" --notes "$changelog" --discussion-category "Announcements" app/build/outputs/apk/normal/release/*.apk app/build/outputs/apk/black/release/*.apk app/build/outputs/apk/dayNight/release/*.apk app/build/outputs/apk/you/release/*.apk
               env:
                 GH_TOKEN: ${{ github.token }}
