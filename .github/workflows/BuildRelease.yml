@@ -21,13 +21,8 @@ jobs:
                 distribution: 'zulu'
                 java-version: 21
                 cache: gradle
-
-            - name: Write Owner Name
-              run:
-                echo ${{github.repository_owner}}
-                echo ${{github.ref}}
-              if: github.repository_owner == 'Kaiserdragon2'
             - name: Write sign info
+              if: github.repository_owner == 'Kaiserdragon2'
               run: |
                   if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
                     echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
@@ -57,11 +52,7 @@ jobs:
                 image="![releaseImage](https://github.com/Kaiserdragon2/Arcticons/blob/$GITHUB_REF_NAME/generated/releaseImage.jpg)"
                 changelog=$(cat ./generated/changelog.md)
                 changelog="$changelog  $image"
-                echo $GITHUB_REF_NAME
-                echo $name
-                echo $changelog
                 gh release create $GITHUB_REF_NAME --generate-notes --title "$name" --notes "$changelog" --discussion-category "Announcements" app/build/outputs/apk/normal/release/*.apk app/build/outputs/apk/black/release/*.apk app/build/outputs/apk/dayNight/release/*.apk app/build/outputs/apk/you/release/*.apk
-
               env:
                 GH_TOKEN: ${{ github.token }}
             

@@ -18,7 +18,17 @@ jobs:
               with:
                 distribution: 'zulu'
                 java-version: 21
-                cache: gradle          
+                cache: gradle       
+            - name: Write sign info
+              if: github.repository_owner == 'Kaiserdragon2'
+              run: |
+                  if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+                    echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
+                    echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
+                    echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
+                    echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
+                    echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
+                  fi   
             - name: Get Gradle
               run: gradle wrapper
             - name: Grant execute permission for gradlew
@@ -28,7 +38,6 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: Debug APK
                   path: |
                     app/build/outputs/apk/black/debug/*.apk
                     app/build/outputs/apk/blackPlay/debug/*.apk

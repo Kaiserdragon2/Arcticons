@@ -1,3 +1,7 @@
-### Wow a Test Release
+### An Awsome Release Title
+* :rocket: Many new icons! 
+* :rainbow:
+* :tada: Fixes for icons not applying.
+* :fire: 10000 icons in total!
+* :sparkles:
 
-this is here to test things out
