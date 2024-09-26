@@ -1,7 +1,4 @@
-### An Awsome Release Title
-* :rocket: Many new icons! 
-* :rainbow:
-* :tada: Fixes for icons not applying.
-* :fire: 10000 icons in total!
-* :sparkles:
-
+* 🌈 Another special release, we've reached the **10k**!
+* 🎉 **459** new and updated icons!
+* 🔧 Fixed many icons that stopped working.
+* 🔥 **10845** icons in total!

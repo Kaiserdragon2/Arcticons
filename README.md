@@ -9,12 +9,12 @@
 </div>
   
 # Arcticons for Android
-❄️ With over **9000 icons**, Arcticons is one of the largest free & open source icon-packs available. Featuring consistent and elegant handcrafted icons, giving you a minimalistic clutter-free experience on your phone. <br>
+❄️ With over **10000 icons**, Arcticons is one of the largest free & open source icon-packs available. Featuring consistent and elegant handcrafted icons, giving you a minimalistic clutter-free experience on your phone. <br>
 
 🗺️ Powered by a community of icon creators all around the world!
   
 ## Knowledge base
-📖 Looking to contribute, have questions about Arcticons or anything else? Check outour knowledge base.
+📖 Looking to contribute, have questions about Arcticons or anything else? Check out our knowledge base.
 
 <div align="center">
   <br>

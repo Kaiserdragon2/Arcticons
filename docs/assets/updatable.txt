@@ -1,0 +1,6 @@
+<!-- Net Optimizer -->
+<item component="ComponentInfo{com.burakgon.netoptimizer/com.burakgon.netoptimizer.activities.MainActivity}" drawable="net_optimizer"/>
+
+<!-- Dialer -->
+<item component="ComponentInfo{com.qiku.android.contacts/com.qiku.android.contacts.dial.DialActivity}" drawable="dialer"/>
+

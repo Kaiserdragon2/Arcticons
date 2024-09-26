@@ -39,16 +39,6 @@ public class CandyBar extends CandyBarApplication {
                         .append("\r\n")
                         .append(request.getActivity())
                         .append("\r\n");
-
-                String installerPackage = packageManager.getInstallerPackageName(request.getPackageName());
-
-                if (installerPackage != null && installerPackage.equals("com.android.vending")) {
-                    emailBody.append("https://play.google.com/store/apps/details?id=")
-                            .append(request.getPackageName());
-                } else {
-                    emailBody.append("https://f-droid.org/en/packages/")
-                            .append(request.getPackageName()).append("/");
-                }
             }
 
             return emailBody.toString();
@@ -89,7 +79,7 @@ public class CandyBar extends CandyBarApplication {
 
             String pkg = request.getPackageName();
             if (pkg == null) return true;
-            if (pkg.startsWith("org.chromium.webapk") || pkg.startsWith("com.sec.android.app.sbrowser.webapk")) {
+            if (pkg.startsWith("org.chromium.webapk") || pkg.startsWith("com.sec.android.app.sbrowser.webapk") || pkg.endsWith("com.google.android.archive.ReactivateActivity") ) {
                 request.setAvailableForRequest(false);
                 request.setInfoText("This icon is a web shortcut and not associated with an Android app. Unfortunately it cannot be requested at this time.\n\nIn many launchers, you can long-press the app icon in the drawer and pick an existing icon from the icon pack.");
             }

@@ -22,9 +22,9 @@ jobs:
                 java-version: 21
                 cache: gradle
             - name: Write sign info
-              if: github.repository_owner == 'Kaiserdragon2'
               run: |
-                  if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+                echo "Workflow manually triggered by ${{ github.actor }}"                
+                if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
                     echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
                     echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
                     echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
@@ -49,10 +49,10 @@ jobs:
               run: |
                 name=$(< ./generated/releaseName.txt)
                 name=$(echo $name | tr '\n' ' ')
-                image="![releaseImage](https://github.com/Kaiserdragon2/Arcticons/blob/$GITHUB_REF_NAME/generated/releaseImage.jpg)"
+                image="![releaseImage](https://github.com/Arcticons-Team/Arcticons/blob/$GITHUB_REF_NAME/generated/releaseImage.jpg)"
                 changelog=$(< ./generated/changelog.md)
                 changelog="$changelog
-                 
+
                 $image"
                 gh release create $GITHUB_REF_NAME --generate-notes --title "$name" --notes "$changelog" --discussion-category "Announcements" app/build/outputs/apk/normal/release/*.apk app/build/outputs/apk/black/release/*.apk app/build/outputs/apk/dayNight/release/*.apk app/build/outputs/apk/you/release/*.apk
               env:

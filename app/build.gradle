@@ -9,12 +9,12 @@ android {
         applicationId "com.donnnno.arcticons"
         minSdkVersion rootProject.ext.MinSdk
         targetSdkVersion rootProject.ext.TargetSdk
-        versionCode 1350
-        versionName '10.0.5'
-        multiDexEnabled true
-
-        // Naming app bundles
-        setArchivesBaseName("${parent.name}-v${versionName}")
+        versionCode 1370
+        versionName '10.8.4'
+        multiDexEnabled true        // Naming app bundles
+        base {
+            archivesName = "${parent.name}-v${versionName}"
+        }
 
     }
 
@@ -30,8 +30,12 @@ android {
             signingConfig.setStoreFile(rootProject.file(keystoreProperties.getProperty("storeFile")));
             signingConfig.setStorePassword(keystoreProperties.getProperty("storePassword"));
         });
-    } else {releaseSigning = signingConfigs.named("debug"); // Use getByName for safety
+    } else {releaseSigning = signingConfigs.getByName("debug"); // Use getByName for safety
 }
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         configureEach {
@@ -43,6 +47,7 @@ android {
         debug {
             applicationIdSuffix '.debug'
         }
+
 
         applicationVariants.all { variant ->
 
@@ -128,14 +133,13 @@ android {
         abortOnError false
         checkReleaseBuilds false
         lintConfig = file("lint.xml")
-
     }
 }
 
 dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.github.donnnno:candybar-foss:3.19.1'
+    implementation 'com.github.donnnno:candybar-foss:3.20.2'
 }
 
 import com.android.tools.profgen.ArtProfileKt
