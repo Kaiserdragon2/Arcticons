@@ -109,7 +109,7 @@ const randomNumberInput = document.getElementById("random-number-input");
 // Add an event listener to the button
 updatableButton.addEventListener("click", function() {
     // Define the URL to redirect to
-    const updatableURL = `updatable.html`;
+    const updatableURL = `updatable`;
     // Redirect to the specified URL
     window.location.href = updatableURL;
 });
