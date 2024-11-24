@@ -6,7 +6,7 @@ import hashlib
 import requests
 
 # Change this to your Repo
-Repo = "Kaiserdragon/Arcticons"
+Repo = "Kaiserdragon2/Arcticons"
 
 # Get the branch name
 # Change this to your branch name
