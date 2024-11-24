@@ -68,7 +68,7 @@ fetch(`assets/requests.txt`)
         appEntriesDataGlobal = appEntriesData;
 
         // Example usage:
-        fetch(`assets/combined_appfilter.xml`)
+        fetch(`assets/appfilter.xml`)
             .then(response => {
                 if (!response.ok) {
                     // If appfilter.xml cannot be loaded, render appEntriesData as is
