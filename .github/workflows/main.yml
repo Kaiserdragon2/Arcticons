@@ -4,7 +4,9 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
     branches:
-      - main
+      - Action
+    paths:
+      - 'newicons/appfilter.xml'
   push:
     branches: ["ArcticonsPages"]
   # Allows you to run this workflow manually from the Actions tab
@@ -30,6 +32,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: ArcticonsPages
       
       - name: Set up Python
         uses: actions/setup-python@v5
