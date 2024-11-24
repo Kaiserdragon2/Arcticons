@@ -246,7 +246,7 @@ const updatableButton = document.getElementById("updatable-button");
 // Add an event listener to the button
 updatableButton.addEventListener("click", function () {
     // Define the URL to redirect to
-    const updatableURL = `requests.html`;
+    const updatableURL = `requests`;
     // Redirect to the specified URL
     window.location.href = updatableURL;
 });
