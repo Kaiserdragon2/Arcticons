@@ -41095,6 +41095,9 @@
 	<!-- Avatar World -->
 	<item component="ComponentInfo{com.pazugames.avatarworld/com.unity3d.player.UnityPlayerActivity}" drawable="avatar_world_1"/>
 
+	<!-- Gacha Life -->
+	<item component="ComponentInfo{air.com.lunime.gachalife/air.com.lunime.gachalife.AIRAppEntry}" drawable="gacha_life_1"/>
+
 	<!-- Wallpapers -->
 	<item component="ComponentInfo{com.wallpaperscraft.wallpaperscraft_parallax/com.wallpaperscraft.wallpaperscraft_parallax.home.MainActivity}" drawable="wallpapers"/>
 	<item component="ComponentInfo{com.natewren.radpacklivewalls/com.natewren.livewalls.SplashScreen}" drawable="wallpapers"/>
