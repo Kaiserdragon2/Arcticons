@@ -1,0 +1,52 @@
+name: Build Release Google Play
+
+on:
+  push:
+    tags:
+      - "*"    
+  workflow_dispatch:   
+
+jobs:
+    build:
+        name: Build Arcticons APK
+        if: startsWith(github.ref, 'refs/tags/')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checking out branch
+              uses: actions/checkout@v4
+            - name: Setup Java
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'zulu'
+                java-version: 21
+                cache: gradle
+            - name: Write sign info
+              run: |
+                echo "Workflow manually triggered by ${{ github.actor }}"                
+                if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+                    echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
+                    echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
+                    echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
+                    echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
+                    echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
+                  fi
+            - name: Get Gradle
+              run: gradle wrapper
+            - name: Grant execute permission for gradlew
+              run: chmod +x gradlew
+            - name: Build Normal APK
+              run: ./gradlew app:bundleNormalPlayRelease
+            - name: Build Black APK
+              run: ./gradlew app:bundleBlackPlayRelease
+            - name: Build You APK
+              run: ./gradlew app:bundleYouPlayRelease
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  path: |
+                    app/build/outputs/bundle/normalPlayRelease/*.aab
+                    app/build/outputs/bundle/blackPlayRelease/*.aab
+                    app/build/outputs/bundle/youPlayRelease/*.aab
+
+
+                  
