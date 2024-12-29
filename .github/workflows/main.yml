@@ -26,10 +26,8 @@ concurrency:
 jobs:
   parse_appfilter:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
     steps:
-      - name: Skip if not triggerd from Pull request
-        if: github.event_name != 'pull_request_target'
-        run: exit 0
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install xmllint
@@ -41,19 +39,17 @@ jobs:
         id: validate
         run: |                          
           PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1)
-          if ! [ $? -ne 0 ]; then
+          if [ $? -ne 0 ]; then
             echo "Parsing appfilter.xml failed."
             echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
+            gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
+            exit 1
           else
             echo "Parsing succeeded."
-            exit 0
           fi
-      - name: Post failure comment to PR
-        run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Exit with error if parsing failed
-        run: exit 1
+
 
   parse_and_combine:
     needs: parse_appfilter
