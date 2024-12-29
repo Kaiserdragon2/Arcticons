@@ -28,6 +28,8 @@ env:
 
 jobs:
   parse_appfilter:
+    env:
+      PARSE_OUTPUT: ""
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
@@ -49,10 +51,11 @@ jobs:
       - name: Post failure comment to PR
         if: env.failure == 'true'
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n\`\`\`\n$PARSE_OUTPUT\n\`\`\`"
-          exit 1
+          gh pr comment ${{ github.event.pull_request.number }} --body "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n\`\`\` $PARSE_OUTPUT \`\`\`"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Exit if Parsing failed
+        run: exit 1
 
   parse_and_combine:
     if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (github.event_name == 'pull_request_target' && github.env.failure == false)
