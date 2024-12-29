@@ -23,13 +23,13 @@ concurrency:
   group: 'pages'
   cancel-in-progress: False
 
+env:
+  failure: true
+
 jobs:
   parse_appfilter:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
-    env:
-      failure: true
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -45,6 +45,7 @@ jobs:
             echo "Parsing succeeded."
             echo "failure=false" >> $GITHUB_ENV
           fi
+          echo ${failure}
 
       - name: Post failure comment to PR
         if: env.failure == 'true'
@@ -54,7 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   parse_and_combine:
-    needs: parse_appfilter
+    if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (github.event_name == 'pull_request_target' && github.env.failure == false)
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
