@@ -18,6 +18,7 @@
 	<item component="ComponentInfo{project.vivid.hex.bodhi/project.vivid.hex.bodhi.activities.HexLauncherActivity}" drawable="hex"/>
 	<item component="ComponentInfo{project.vivid.hex.bodhi/project.vivid.hex.bodhi.activities.support.tools.HexThemeShortcutsLauncherActivity}" drawable="hex"/>
 	<item component="ComponentInfo{project.vivid.hex.bodhi/project.vivid.hex.sharedthemes.activities.ThemesShowcaseActivity}" drawable="hex"/>
+	
 
 	<!-- #コンパス -->
 	<item component="ComponentInfo{com.nhnpa.cps/com.toast.android.gamebase.activity.GamebaseMainActivity}" drawable="combat_providence_analysis_system"/>
