@@ -54,7 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   parse_and_combine:
-    if: (github.event_name == 'push') || (github.event_name == 'pull_request_target' && needs.parse_appfilter.result == 'success')
     needs: parse_appfilter
     environment:
       name: github-pages
