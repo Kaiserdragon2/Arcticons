@@ -50,14 +50,17 @@ jobs:
           if [ $? -ne 0 ]; then
             echo "Parsing appfilter.xml failed."
             echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
-            gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
             exit 1
           else
             echo "Parsing succeeded."
           fi
+      - name: Post failure comment to PR
+        if: failure()
+        run: |
+          output=$(cat xmllint_output.txt)
+          gh pr comment ${{ github.event.pull_request.number }} --body "Parsing of 'newicons/appfilter.xml' failed:\n\`\`\`\n${output}\n\`\`\`"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
