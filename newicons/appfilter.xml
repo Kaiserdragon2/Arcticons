@@ -10,7 +10,7 @@
 	<item component="ComponentInfo{com.step.taleblazer/com.step.taleblazer.TaleblazerActivity}" drawable="taleblazer"/>
 
 	<!-- #DRIVE -->
-	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.unity3d.player.UnityPlayerActivity}" drawable="drive"/>
+	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.unity3d.player.UnityPlayerActivity}" drawable="drive">
 	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.releasedata.ReleaseDataActivity.SplashActivityKing}" drawable="drive"/>
 
 	<!-- #hex_ -->
