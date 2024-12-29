@@ -41,12 +41,14 @@ jobs:
           sudo apt install -y libxml2-utils
       - name: Validate appfilter.xml
         id: validate
-        run: |                          
+        run: |            
+          echo "Check XML"              
           PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1)
           if [ $? -ne 0 ]; then
             echo "Parsing appfilter.xml failed."
             echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
             gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
+            exit 1
           else
             echo "Parsing succeeded."
           fi
