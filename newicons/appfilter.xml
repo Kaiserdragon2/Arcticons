@@ -11,7 +11,7 @@
 
 	<!-- #DRIVE -->
 	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.unity3d.player.UnityPlayerActivity}" drawable="drive"/>
-	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.releasedata.ReleaseDataActivity.SplashActivityKing}" drawable="drive">
+	<item component="ComponentInfo{com.pixelperfectdude.htdrive/com.releasedata.ReleaseDataActivity.SplashActivityKing}" drawable="drive"/>
 
 	<!-- #hex_ -->
 	<item component="ComponentInfo{project.vivid.hex.bodhi/project.vivid.hex.bodhi.activities.WelcomeActivity}" drawable="hex"/>
