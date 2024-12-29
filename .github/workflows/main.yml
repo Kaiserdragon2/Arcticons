@@ -34,6 +34,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           sparse-checkout: |
             newicons/appfilter.xml
+          sparse-checkout-cone-mode: false
       - name: Install xmllint
         shell: bash
         run: |
@@ -42,7 +43,9 @@ jobs:
       - name: Validate appfilter.xml
         id: validate
         run: |            
-          echo "Check XML"              
+          echo "Check XML"
+          ls
+
           PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1)
           if [ $? -ne 0 ]; then
             echo "Parsing appfilter.xml failed."
