@@ -30,6 +30,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          sparse-checkout: |
+            newicons/appfilter.xml
       - name: Install xmllint
         shell: bash
         run: |
