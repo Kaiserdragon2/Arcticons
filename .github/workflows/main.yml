@@ -56,9 +56,7 @@ jobs:
           fi
       - name: Post failure comment to PR
         if: failure()
-        run: |
-          output=$(cat xmllint_output.txt)
-          gh pr comment ${{ github.event.pull_request.number }} --body "Parsing of 'newicons/appfilter.xml' failed:\n\`\`\`\n${output}\n\`\`\`"
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload artifact
