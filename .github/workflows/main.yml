@@ -33,7 +33,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
+      - name: Install xmllint
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y libxml2-utils
       - name: Validate appfilter.xml
         id: validate
         run: |
@@ -57,7 +61,7 @@ jobs:
         run: exit 1
 
   parse_and_combine:
-    if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (github.event_name == 'pull_request_target' && github.env.failure == false)
+    if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (github.event_name == 'pull_request_target' && github.env.failure == 'false')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
