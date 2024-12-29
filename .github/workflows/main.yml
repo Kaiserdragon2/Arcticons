@@ -47,8 +47,6 @@ jobs:
             echo "Parsing succeeded."
             exit 0
           fi
-        env:
-          PARSE_OUTPUT: ""
       - name: Post failure comment to PR
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
         env:
