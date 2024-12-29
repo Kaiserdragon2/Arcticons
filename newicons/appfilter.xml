@@ -29,7 +29,7 @@
 	<item component="ComponentInfo{jp.co.a_tm.android.launcher/jp.co.a_tm.android.launcher.Launcher}" drawable="plus_home"/>
 
 	<!-- +HOME Store -->
-	<item component="ComponentInfo{jp.co.a_tm.android.launcher/jp.co.a_tm.android.launcher.theme.ThemesActivity}" drawable="plus_home_store"/>
+	<item component="ComponentInfo{jp.co.a_tm.android.launcher/jp.co.a_tm.android.launcher.theme.ThemesActivity}" drawable="plus_home_store">
 
 	<!-- +SBT -->
 	<item component="ComponentInfo{br.com.sbt.mais/tv.accedo.elevate.app.ElevateActivity}" drawable="sbt"/>
