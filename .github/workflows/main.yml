@@ -42,7 +42,7 @@ jobs:
         run: |
           if PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1); then
             echo "Parsing appfilter.xml failed."
-            echo "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n ${{env.PARSE_OUTPUT}} \n \`\`\`" >> comment_markdown.md
+            echo "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
           else
             echo "Parsing succeeded."
             exit 0
