@@ -23,14 +23,13 @@ concurrency:
   group: 'pages'
   cancel-in-progress: False
 
-env:
-  failure: true
-
 jobs:
   parse_appfilter:
-    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
+      - name: Skip if not triggerd from Pull request
+        if: github.event_name != 'pull_request_target'
+        run: exit 0
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install xmllint
@@ -41,27 +40,22 @@ jobs:
       - name: Validate appfilter.xml
         id: validate
         run: |
-          if ! PARSE_OUTPUT=$(xmllint --noout newicons\appfilter.xml 2>&1); then
+          if ! PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1); then
             echo "Parsing appfilter.xml failed."
-            echo "failure=true" >> $GITHUB_ENV
             echo "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n\`\`\`\n$PARSE_OUTPUT\n\`\`\`" >> comment_markdown.md
           else
             echo "Parsing succeeded."
-            echo "failure=false" >> $GITHUB_ENV
+            exit 0
           fi
-          echo ${failure}
-
       - name: Post failure comment to PR
-        if: env.failure == 'true'
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Exit if Parsing failed
+      - name: Exit with error if parsing failed
         run: exit 1
 
   parse_and_combine:
-    if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (github.event_name == 'pull_request_target' && github.env.failure == 'false')
+    needs: parse_appfilter
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
