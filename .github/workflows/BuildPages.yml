@@ -110,6 +110,7 @@ jobs:
           path: docs/assets/image_color_counts.xml
   Create_requestjson:
     name: Create Requestjson
+    needs: [Check_FilePath]
     if: ${{(needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push')  || inputs.run_requestjson == 'true' }}
     runs-on: ubuntu-latest
     outputs:
