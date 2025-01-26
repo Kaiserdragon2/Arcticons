@@ -82,7 +82,7 @@ jobs:
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
-    if: ${{(needs.Check_FilePath.outputs.imagechange == 'true' && github.event_name == 'push') || inputs.run_colormapping == 'true'  }}
+    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && github.event_name == 'push') || inputs.run_colormapping == 'true'  ) && !failure() }}
     runs-on: ubuntu-latest
     outputs:
       colormapping_done: ${{ steps.colormapping_done.outcome }}
@@ -111,7 +111,7 @@ jobs:
   Create_requestjson:
     name: Create Requestjson
     needs: [Check_FilePath]
-    if: ${{(needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push')  || inputs.run_requestjson == 'true' }}
+    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push')  || inputs.run_requestjson == 'true' ) && !failure() }}
     runs-on: ubuntu-latest
     outputs:
       requestjson_done: ${{ steps.requestjson_done.outcome }}
