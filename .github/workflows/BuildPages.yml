@@ -7,7 +7,7 @@ on:
     paths:
       - 'newicons/appfilter.xml'
   push:
-    branches: ["Arcticons-Pages"]
+    branches: ['Arcticons-Pages']
     paths:
       - 'docs/**'
   workflow_dispatch:
@@ -20,6 +20,8 @@ on:
         description: "Run Create_requestjson job (true/false)"
         required: false
         default: "true"
+env:
+  Branch: Arcticons-Pages
 jobs:
   check_appfilter:
     name: Check appfilter.xml
@@ -70,7 +72,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -79,7 +81,7 @@ jobs:
               - 'docs/extracted_png**'
             requests:
               - 'docs/assets/requests.txt'
-          base: 'Arcticons-Pages'
+          base: ${{env.Branch}}
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
@@ -91,7 +93,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -120,7 +122,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -145,7 +147,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
       - name: Download Colormapping and Requestjson
         uses: actions/download-artifact@v4
         with:
@@ -175,7 +177,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
