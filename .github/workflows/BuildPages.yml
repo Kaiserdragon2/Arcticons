@@ -1,4 +1,4 @@
-name: Update Colormapping
+name: Build Pages
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
@@ -79,6 +79,7 @@ jobs:
               - 'docs/extracted_png**'
             requests:
               - 'docs/assets/requests.txt'
+          base: 'Arcticons-Pages'
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
