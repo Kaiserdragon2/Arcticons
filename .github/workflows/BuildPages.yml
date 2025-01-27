@@ -87,6 +87,9 @@ jobs:
     needs: [Check_FilePath]
     if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && github.event_name == 'push') || inputs.run_colormapping == 'true'  ) && !failure() }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: 'colormapping'
+      cancel-in-progress: true
     outputs:
       colormapping_done: ${{ steps.colormapping_done.outcome }}
     steps:
@@ -116,6 +119,9 @@ jobs:
     needs: [Check_FilePath]
     if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push')  || inputs.run_requestjson == 'true' ) && !failure() }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: 'requestjson'
+      cancel-in-progress: true
     outputs:
       requestjson_done: ${{ steps.requestjson_done.outcome }}
     steps:
