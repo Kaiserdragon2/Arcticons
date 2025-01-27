@@ -149,6 +149,7 @@ jobs:
   Push_Files:
     needs: [Create_Colormappping, Create_requestjson]
     runs-on: ubuntu-latest
+    if: ${{ (needs.Create_Colormappping.outputs.colormapping_done == 'success' || needs.Create_requestjson.outputs.requestjson_done == 'success') }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
