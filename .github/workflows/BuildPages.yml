@@ -3,7 +3,7 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
     branches:
-      - main
+      - fix
     paths:
       - 'newicons/appfilter.xml'
   push:
@@ -24,7 +24,7 @@ env:
   Branch: Test-Pages
 jobs:
   check_appfilter:
-    name: Check appfilter.xml
+    name: Check appfilter.xml from pull_request
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     permissions:
@@ -90,8 +90,6 @@ jobs:
     concurrency:
       group: 'colormapping'
       cancel-in-progress: true
-    outputs:
-      colormapping_done: ${{ steps.colormapping_done.outcome }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -149,7 +147,9 @@ jobs:
   Push_Files:
     needs: [Create_Colormappping, Create_requestjson]
     runs-on: ubuntu-latest
-    if: ${{ (needs.Create_Colormappping.outputs.colormapping_done == 'success' || needs.Create_requestjson.outputs.requestjson_done == 'success') }}
+    concurrency:
+      group: 'push'
+    if: ${{(needs.Create_Colormappping.result == 'success' || needs.Create_requestjson.result == 'success') && !failure()}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
