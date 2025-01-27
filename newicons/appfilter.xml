@@ -1,7 +1,6 @@
 <resources>
 
-	<!--  BatLib  -->
-	<item component="ComponentInfo{com.elekon.batlib/com.elekon.batlib.BatLibActivity}" drawable="batlib"/>
+
 
 	<!--  Defikataster  -->
 	<item component="ComponentInfo{defikataster.defikataster/crc64368f9ae342d36745.SplashActivity}" drawable="defikataster"/>
