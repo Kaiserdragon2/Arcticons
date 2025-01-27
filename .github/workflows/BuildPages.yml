@@ -7,7 +7,7 @@ on:
     paths:
       - 'newicons/appfilter.xml'
   push:
-    branches: ['Arcticons-Pages']
+    branches: ['Test-Pages']
     paths:
       - 'docs/**'
   workflow_dispatch:
@@ -21,7 +21,7 @@ on:
         required: false
         default: "true"
 env:
-  Branch: Arcticons-Pages
+  Branch: Test-Pages
 jobs:
   check_appfilter:
     name: Check appfilter.xml
