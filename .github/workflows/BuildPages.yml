@@ -78,7 +78,7 @@ jobs:
         with:
           filters: |
             images:
-              - 'docs/extracted_png**'
+              - 'docs/extracted_png/**'
             requests:
               - 'docs/assets/requests.txt'
           base: ${{env.Branch}}
@@ -172,6 +172,7 @@ jobs:
     if: '!failure()'
     permissions:
       pages: write # Required to deploy to GitHub Pages
+      id-token: write # Required to deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
