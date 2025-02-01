@@ -311,7 +311,7 @@ jobs:
           # Check if there are any changes
           if [ -z "$CHANGED_FILES" ]; then
             echo "No changes detected"
-            echo "changes_detected=false" >> $GITHUB_ENV
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
           else
             echo "Changes detected"
             echo "changes_detected=true" >> $GITHUB_OUTPUT
