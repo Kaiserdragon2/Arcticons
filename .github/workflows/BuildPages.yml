@@ -163,6 +163,8 @@ jobs:
         run: |
           ls -l docs/assets/
           echo "Checking for changes" >> ./docs/assets/test.txt
+          ls -l docs/assets/
+          ls
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
