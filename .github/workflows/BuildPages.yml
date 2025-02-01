@@ -39,11 +39,14 @@ on:
 
 jobs:
   fetch_and_push_file:
+    name: Fetch and Push File
     if: ${{ github.repository == 'Arcticons-Team/Arcticons' && ((github.event_name == 'push' && github.ref_name == vars.MAIN_BRANCH) || (github.event_name == 'workflow_dispatch' && inputs.run_fetch_and_push_file == true)) }}
     runs-on: ubuntu-latest
     concurrency:
       group: push
       cancel-in-progress: false
+    environment:
+      name: FileSync
     env:
       SOURCE_BRANCH: ${{vars.MAIN_BRANCH}}
       TARGET_BRANCH: ${{vars.PAGES_BRANCH}}
@@ -319,7 +322,7 @@ jobs:
   parse_and_combine:
     name: Parse and Combine Appfilter
     needs: [check_appfilter, Push_Files,fetch_and_push_file]
-    if: ${{(needs.check_appfilter.result == 'success' || needs.Push_Files.result == 'success') && !failure()}}
+    if: ${{(needs.check_appfilter.result == 'success' || needs.Push_Files.result == 'success' ||needs.fetch_and_push_file.result == 'success') && !failure()}}
     permissions:
       pages: write # Required to deploy to GitHub Pages
       id-token: write # Required to deploy to GitHub Pages
