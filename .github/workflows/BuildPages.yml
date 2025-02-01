@@ -12,21 +12,26 @@ on:
       - 'docs/**'
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '15 * * * *'
+    - cron:  '0,15,30,45 * * * *'
   workflow_dispatch:
     inputs:
       run_colormapping:
         description: "Run Create_Colormappping job (true/false)"
+        type: choice
         required: false
         default: "true"
+        options:
+          - true
+          - false
       run_requestjson:
         description: "Run Create_requestjson job (true/false)"
         required: false
         default: "true"
       run_Request_Update:
         description: "Run Update_Requests job (true/false)"
+        type: boolean
         required: false
-        default: "true"
+        default: true
 env:
   Branch: Test-Pages
 jobs:
@@ -69,7 +74,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Update_Requests:
-    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == 'true' || github.event_name == 'schedule') }}
+    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
     environment:
       name: Request-Update
     concurrency:
@@ -113,7 +118,7 @@ jobs:
           git push
   Check_FilePath:
     name: Check File Path changes
-    if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && !failure() }}
+    if: ${{ (github.event_name == 'push' || github.event_name == 'schedule'|| (github.event_name == 'workflow_dispatch' && inputs.run_Request_Update == true)) && !failure() }}
     needs: [Update_Requests]
     runs-on: ubuntu-latest
     outputs:
@@ -136,7 +141,7 @@ jobs:
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && github.event_name == 'push') || inputs.run_colormapping == 'true'  ) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')) || (inputs.run_colormapping == 'true' &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'colormapping'
@@ -166,7 +171,7 @@ jobs:
   Create_requestjson:
     name: Create Requestjson
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push')  || inputs.run_requestjson == 'true' ) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch'))  || (inputs.run_requestjson == 'true'  &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'requestjson'
