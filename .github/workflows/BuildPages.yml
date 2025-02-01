@@ -111,7 +111,6 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          echo ${{github.event_name}}
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
@@ -153,6 +152,8 @@ jobs:
       imagechange: ${{ steps.changes.outputs.images }}
       requestchange: ${{ steps.changes.outputs.requests }}
     steps:
+      - name: test
+        run: echo ${{github.event_name}}
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
