@@ -40,7 +40,7 @@ on:
 jobs:
   fetch_and_push_file:
     name: Fetch and Push File
-    if: ${{ github.repository == 'Arcticons-Team/Arcticons' && ((github.event_name == 'push' && github.ref_name == vars.MAIN_BRANCH) || (github.event_name == 'workflow_dispatch' && inputs.run_fetch_and_push_file == true)) }}
+    if: ${{ github.repository == vars.REPOSITORY && ((github.event_name == 'push' && github.ref_name == vars.MAIN_BRANCH) || (github.event_name == 'workflow_dispatch' && inputs.run_fetch_and_push_file == true)) }}
     runs-on: ubuntu-latest
     concurrency:
       group: push
