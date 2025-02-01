@@ -227,7 +227,7 @@ jobs:
   parse_and_combine:
     name: Parse and Combine Appfilter
     needs: [check_appfilter, Push_Files]
-    if: !failure()
+    if: '!failure()'
     permissions:
       pages: write # Required to deploy to GitHub Pages
       id-token: write # Required to deploy to GitHub Pages
