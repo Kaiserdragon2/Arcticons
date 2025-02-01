@@ -23,6 +23,10 @@ on:
         description: "Run Create_requestjson job (true/false)"
         required: false
         default: "true"
+      run_Request_Update:
+        description: "Run Update_Requests job (true/false)"
+        required: false
+        default: "true"
 env:
   Branch: Test-Pages
 jobs:
@@ -65,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Update_Requests:
-    if: github.repository == 'Kaiserdragon2/Arcticons'
+    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == 'true' || github.event_name == 'schedule') }}
     environment:
       name: Request-Update
     permissions:
@@ -78,7 +82,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: Arcticons-Pages
+          ref: ${{env.Branch}}
 
       - name: Set up Python
         uses: actions/setup-python@v5
