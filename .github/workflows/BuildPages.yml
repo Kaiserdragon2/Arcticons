@@ -243,7 +243,7 @@ jobs:
   parse_and_combine:
     name: Parse and Combine Appfilter
     needs: [check_appfilter, Push_Files]
-    if: '!failure()'
+    if: ${{(needs.check_appfilter.result == 'success' || needs.Push_Files.result == 'success') && !failure()}}
     permissions:
       pages: write # Required to deploy to GitHub Pages
       id-token: write # Required to deploy to GitHub Pages
