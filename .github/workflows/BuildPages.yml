@@ -130,7 +130,7 @@ jobs:
           git push
   Check_FilePath:
     name: Check File Path changes
-    if: ${{ (github.event_name == 'push' || (github.event_name == 'schedule'|| (github.event_name == 'workflow_dispatch' && inputs.run_Request_Update == true) && needs.Update_Requests.outputs.changes_detected == 'true')) && !failure() }}
+    if: ${{ (github.event_name == 'push' || ((github.event_name == 'schedule'|| (github.event_name == 'workflow_dispatch' && inputs.run_Request_Update == true)) && needs.Update_Requests.outputs.changes_detected == 'true')) && !failure() }}
     needs: [Update_Requests]
     runs-on: ubuntu-latest
     outputs:
