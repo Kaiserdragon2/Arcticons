@@ -125,7 +125,7 @@ jobs:
     environment:
       name: Request-Update
     concurrency:
-      group: 'updaterequest'
+      group: 'push'
       cancel-in-progress: false
     runs-on: ubuntu-latest
     outputs:
@@ -161,7 +161,6 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          echo "Checking for changes" >> ./docs/assets/test1.txt
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
