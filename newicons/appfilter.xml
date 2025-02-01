@@ -1,8 +1,5 @@
 <resources>
 
-	<!--  Defikataster  -->
-	<item component="ComponentInfo{defikataster.defikataster/crc64368f9ae342d36745.SplashActivity}" drawable="defikataster"/>
-
 	<!--  Hugo  -->
 	<item component="ComponentInfo{com.kreammedie.hugoretromania.android.all/com.unity3d.player.UnityPlayerNativeActivity}" drawable="hugogame"/>
 	<item component="ComponentInfo{com.kreammedie.hugoretromania.android.all/com.kreammedie.hugoretromania.android.all.MainActivity}" drawable="hugogame"/>
