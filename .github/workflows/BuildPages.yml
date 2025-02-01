@@ -12,7 +12,7 @@ on:
       - 'docs/**'
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '55 * * * *'
+    - cron:  '15 * * * *'
   workflow_dispatch:
     inputs:
       run_colormapping:
@@ -72,8 +72,6 @@ jobs:
     if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == 'true' || github.event_name == 'schedule') }}
     environment:
       name: Request-Update
-    permissions:
-      contents: write
     concurrency:
       group: 'updaterequest'
       cancel-in-progress: false
