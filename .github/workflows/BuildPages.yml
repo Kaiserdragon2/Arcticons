@@ -16,19 +16,17 @@ on:
   workflow_dispatch:
     inputs:
       run_colormapping:
-        description: "Run Create_Colormappping job (true/false)"
-        type: choice
+        description: "Run Create_Colormappping job"
+        type: boolean
         required: false
-        default: "true"
-        options:
-          - true
-          - false
+        default: true
       run_requestjson:
-        description: "Run Create_requestjson job (true/false)"
+        description: "Run Create_requestjson job"
+        type: boolean
         required: false
-        default: "true"
+        default: true
       run_Request_Update:
-        description: "Run Update_Requests job (true/false)"
+        description: "Run Update_Requests job"
         type: boolean
         required: false
         default: true
@@ -142,7 +140,7 @@ jobs:
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')) || (inputs.run_colormapping == 'true' &&  inputs.run_Request_Update == false )) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')) || (inputs.run_colormapping == true &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'colormapping'
@@ -172,7 +170,7 @@ jobs:
   Create_requestjson:
     name: Create Requestjson
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch'))  || (inputs.run_requestjson == 'true'  &&  inputs.run_Request_Update == false )) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch'))  || (inputs.run_requestjson == true  &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'requestjson'
