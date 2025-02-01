@@ -7,9 +7,10 @@ on:
     paths:
       - 'newicons/appfilter.xml'
   push:
-    branches: ['Test-Pages']
+    branches: ['Test-Pages','fix']
     paths:
       - 'docs/**'
+      - 'newicons/appfilter.xml'
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron: '0,15,30,45 * * * *'
@@ -19,19 +20,65 @@ on:
         description: "Run Create_Colormappping job"
         type: boolean
         required: false
-        default: true
+        default: false
       run_requestjson:
         description: "Run Create_requestjson job"
         type: boolean
         required: false
-        default: true
+        default: false
       run_Request_Update:
         description: "Run Update_Requests job"
         type: boolean
         required: false
-        default: true
+        default: false
+      run_fetch_and_push_file:
+        description: "Run fetch_and_push_file job"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
+  fetch_and_push_file:
+    if: ${{ github.repository == 'Arcticons-Team/Arcticons' && ((github.event_name == 'push' && github.ref_name == vars.MAIN_BRANCH) || (github.event_name == 'workflow_dispatch' && inputs.run_fetch_and_push_file == true)) }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: push
+      cancel-in-progress: false
+    env:
+      SOURCE_BRANCH: ${{vars.MAIN_BRANCH}}
+      TARGET_BRANCH: ${{vars.PAGES_BRANCH}}
+      FILE_PATH: newicons/appfilter.xml
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout main Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{vars.MAIN_BRANCH}}
+          path: main
+
+      # Step 2: Checkout the 2. repository
+      - name: Checkout Arcticons-Pages Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{vars.PAGES_BRANCH}}
+          path: pages
+      # Step 3: Fetch the file from the source branch
+      - name: Copy File from main to Arcticons-Pages
+        run: |
+            rm pages/newicons/appfilter.xml
+            cp main/newicons/appfilter.xml pages/newicons/appfilter.xml
+      # Step 4: Commit and push changes
+      - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd pages
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add $FILE_PATH
+          git commit -m "Update $FILE_PATH from $SOURCE_BRANCH to $TARGET_BRANCH"
+          git push
   check_appfilter:
     name: Check appfilter.xml from pull_request
     if: github.event_name == 'pull_request_target'
@@ -138,7 +185,7 @@ jobs:
           fi
 
       - name: Commit and Push if Changes Exist
-        if: ${{ steps.check_changes.changes_detected == 'true' }}
+        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
         run: |
           git add -A
           git commit -m "Automated Request Update"
@@ -153,7 +200,7 @@ jobs:
       requestchange: ${{ steps.changes.outputs.requests }}
     steps:
       - name: test
-        run: echo ${{github.event_name}}
+        run: echo ${{github.ref_name}}
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -234,6 +281,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: 'push'
+      cancel-in-progress: false
     if: ${{(needs.Create_Colormappping.result == 'success' || needs.Create_requestjson.result == 'success') && !failure()}}
     steps:
       - name: Checkout Repository
@@ -251,9 +299,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-          # Check for changes
-          git diff --exit-code
-          if [ $? -eq 0 ]; then
+          # Get the list of changed files
+          CHANGED_FILES=$(git diff --name-only)
+
+          # Check if there are any changes
+          if [ -z "$CHANGED_FILES" ]; then
             echo "No changes detected"
             echo "changes_detected=false" >> $GITHUB_ENV
           else
@@ -261,14 +311,14 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit and Push if Changes Exist
-        if: ${{ steps.check_changes.changes_detected == 'true' }}
+        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
         run: |
           git add -A
           git commit -m "Automated updates from Colormappping and Requestjson jobs"
           git push
   parse_and_combine:
     name: Parse and Combine Appfilter
-    needs: [check_appfilter, Push_Files]
+    needs: [check_appfilter, Push_Files,fetch_and_push_file]
     if: ${{(needs.check_appfilter.result == 'success' || needs.Push_Files.result == 'success') && !failure()}}
     permissions:
       pages: write # Required to deploy to GitHub Pages
