@@ -74,7 +74,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Update_Requests:
-    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == true || github.event_name == 'schedule') }}
+    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
     environment:
       name: Request-Update
     concurrency:
