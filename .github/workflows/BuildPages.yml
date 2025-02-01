@@ -158,7 +158,7 @@ jobs:
   Create_Colormappping:
     name: Create Colormapping
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')) || (inputs.run_colormapping == true &&  inputs.run_Request_Update == false )) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')) || (inputs.run_colormapping == true &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'colormapping'
@@ -188,7 +188,7 @@ jobs:
   Create_requestjson:
     name: Create Requestjson
     needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch'))  || (inputs.run_requestjson == true  &&  inputs.run_Request_Update == false )) && !failure() }}
+    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'))  || (inputs.run_requestjson == true  &&  inputs.run_Request_Update == false )) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'requestjson'
