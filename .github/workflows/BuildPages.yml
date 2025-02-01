@@ -168,15 +168,14 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m "Automated Request Update"
 
           # Get the list of changed files
-          CHANGED_FILES=$(git diff --name-only)
+          CHANGED_FILES=$(git diff --cached --name-only)
 
           # Check if there are any changes
           if [ -z "$CHANGED_FILES" ]; then
             echo "No changes detected"
-            echo "changes_detected=false" >> $GITHUB_ENV
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
           else
             echo "Changes detected"
             echo "changes_detected=true" >> $GITHUB_OUTPUT
