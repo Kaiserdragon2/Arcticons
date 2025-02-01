@@ -10,6 +10,9 @@ on:
     branches: ['Test-Pages']
     paths:
       - 'docs/**'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '45 * * * *'
   workflow_dispatch:
     inputs:
       run_colormapping:
@@ -61,9 +64,55 @@ jobs:
           gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  Update_Requests:
+    if: github.repository == 'Kaiserdragon2/Arcticons'
+    environment:
+      name: Request-Update
+    permissions:
+      contents: write
+    concurrency:
+      group: 'updaterequest'
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: Arcticons-Pages
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+      - run: pip install -r .github/workflows/requirements.txt
+
+      - name: Execute Python Script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUEST_LIMIT: ${{ vars.REQUEST_LIMIT }}
+          MONTHS_LIMIT: ${{ vars.MONTHS_LIMIT }}
+          MIN_REQUESTS: ${{ vars.MIN_REQUESTS }}
+          SUBJECT_PREFIX: ${{ vars.SUBJECT_PREFIX }}
+          SUBJECT_SUFFIX: ${{ vars.SUBJECT_SUFFIX }}
+          IMAP_SERVER: ${{ secrets.IMAP_SERVER }}
+          IMAP_USERNAME: ${{ secrets.IMAP_USERNAME }}
+          IMAP_PASSWORD: ${{ secrets.IMAP_PASSWORD }}
+        run: |
+          mkdir mail
+          python .github/workflows/email_parser_auto.py mail newicons/appfilter.xml docs/extracted_png docs/assets/ 
+          rm -r mail
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m "Automated Request Update"
+          git push
   Check_FilePath:
     name: Check File Path changes
-    if: ${{ github.event_name == 'push'}}
+    if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') && !failure() }}
+    needs: [Update_Requests]
     runs-on: ubuntu-latest
     outputs:
       imagechange: ${{ steps.changes.outputs.images }}
