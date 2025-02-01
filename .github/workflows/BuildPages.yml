@@ -30,8 +30,7 @@ on:
         type: boolean
         required: false
         default: true
-env:
-  Branch: Test-Pages
+
 jobs:
   check_appfilter:
     name: Check appfilter.xml from pull_request
@@ -72,7 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Update_Requests:
-    if: ${{ github.repository == 'Kaiserdragon2/Arcticons' && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
+    if: ${{ github.repository == vars.REPOSITORY && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
     environment:
       name: Request-Update
     concurrency:
@@ -81,11 +80,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       changes_detected: ${{ steps.check_changes.outputs.changes_detected }}
+      request_changes: ${{ steps.check_changes.outputs.Request_changes }}
+      image_changes: ${{ steps.check_changes.outputs.Image_changes }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -113,25 +114,39 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-          # Check for changes
-          git diff --exit-code
-          if [ $? -eq 0 ]; then
+          # Get the list of changed files
+          CHANGED_FILES=$(git diff --name-only)
+
+          # Check if there are any changes
+          if [ -z "$CHANGED_FILES" ]; then
             echo "No changes detected"
             echo "changes_detected=false" >> $GITHUB_ENV
           else
             echo "Changes detected"
             echo "changes_detected=true" >> $GITHUB_OUTPUT
+
+            # Set different outputs depending on which path changed
+            if echo "$CHANGED_FILES" | grep -q "^docs/assets/requests.txt"; then
+              echo "Request_changes=true" >> $GITHUB_OUTPUT
+            fi
+
+            if echo "$CHANGED_FILES" | grep -q "^docs/extracted_png/"; then
+              echo "Image_changes=true" >> $GITHUB_OUTPUT
+            fi
+
+            # You can add more checks for other directories or files here as needed
           fi
+
       - name: Commit and Push if Changes Exist
         if: ${{ steps.check_changes.changes_detected == 'true' }}
         run: |
           git add -A
           git commit -m "Automated Request Update"
           git push
+
   Check_FilePath:
     name: Check File Path changes
-    if: ${{ (github.event_name == 'push' || ((github.event_name == 'schedule'|| (github.event_name == 'workflow_dispatch' && inputs.run_Request_Update == true)) && needs.Update_Requests.outputs.changes_detected == 'true')) && !failure() }}
-    needs: [Update_Requests]
+    if: ${{github.event_name == 'push' && github.ref_name == vars.PAGES_BRANCH}}
     runs-on: ubuntu-latest
     outputs:
       imagechange: ${{ steps.changes.outputs.images }}
@@ -140,7 +155,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -149,11 +164,11 @@ jobs:
               - 'docs/extracted_png/**'
             requests:
               - 'docs/assets/requests.txt'
-          base: ${{env.Branch}}
+          base: ${{vars.PAGES_BRANCH}}
   Create_Colormappping:
     name: Create Colormapping
-    needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')) || (inputs.run_colormapping == true &&  inputs.run_Request_Update == false )) && !failure() }}
+    needs: [Check_FilePath, Update_Requests]
+    if: ${{ ((needs.Check_FilePath.outputs.imagechange == 'true' && github.event_name == 'push') || (((github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && needs.Update_Requests.outputs.image_changes == 'true') || (inputs.run_colormapping == true &&  inputs.run_Request_Update == false ))) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'colormapping'
@@ -162,7 +177,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -182,8 +197,8 @@ jobs:
           path: docs/assets/image_color_counts.xml
   Create_requestjson:
     name: Create Requestjson
-    needs: [Check_FilePath]
-    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'))  || (inputs.run_requestjson == true  &&  inputs.run_Request_Update == false )) && !failure() }}
+    needs: [Check_FilePath, Update_Requests]
+    if: ${{ ((needs.Check_FilePath.outputs.requestchange == 'true' && github.event_name == 'push') || (((github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && needs.Update_Requests.outputs.request_changes == 'true')  || (inputs.run_requestjson == true  &&  inputs.run_Request_Update == false ))) && !failure() }}
     runs-on: ubuntu-latest
     concurrency:
       group: 'requestjson'
@@ -194,7 +209,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -222,7 +237,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - name: Download Colormapping and Requestjson
         uses: actions/download-artifact@v4
         with:
@@ -267,7 +282,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{env.Branch}}
+          ref: ${{vars.PAGES_BRANCH}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
