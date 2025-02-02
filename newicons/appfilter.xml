@@ -1,8 +1,5 @@
 <resources>
 
-	<!--  TaleBlazer  -->
-	<item component="ComponentInfo{com.step.taleblazer/com.step.taleblazer.TaleblazerActivity}" drawable="taleblazer"/>
-
 	<!-- #Dating -->
 	<item component="ComponentInfo{de.yalwa.hashtagdating/de.yalwa.hashtagdating.MainActivity}" drawable="hashtagdating"/>
 
