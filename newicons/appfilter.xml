@@ -1,8 +1,5 @@
 <resources>
 
-	<!--  Peggle Classic -->
-	<item component="ComponentInfo{com.popcap.peggle/com.popcap.peggle.Main}" drawable="peggleclassic"/>
-
 	<!--  Photos Gallery  -->
 	<item component="ComponentInfo{com.kaii.photos/com.kaii.photos.MainActivity}" drawable="photosgallery"/>
 
