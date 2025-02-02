@@ -1,11 +1,5 @@
 <resources>
 
-	<!--  Hugo  -->
-	<item component="ComponentInfo{com.kreammedie.hugoretromania.android.all/com.unity3d.player.UnityPlayerNativeActivity}" drawable="hugogame"/>
-	<item component="ComponentInfo{com.kreammedie.hugoretromania.android.all/com.kreammedie.hugoretromania.android.all.MainActivity}" drawable="hugogame"/>
-	<item component="ComponentInfo{com.hugogames.projectarnold/com.unity3d.player.UnityPlayerActivity}" drawable="hugogame"/>
-	<item component="ComponentInfo{com.hugogames.projectarnold/com.hugogames.projectarnold.MainActivity}" drawable="hugogame"/>
-
 	<!--  Peggle Classic -->
 	<item component="ComponentInfo{com.popcap.peggle/com.popcap.peggle.Main}" drawable="peggleclassic"/>
 
