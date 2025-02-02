@@ -1,8 +1,5 @@
 <resources>
 
-	<!--  Photos Gallery  -->
-	<item component="ComponentInfo{com.kaii.photos/com.kaii.photos.MainActivity}" drawable="photosgallery"/>
-
 	<!--  TaleBlazer  -->
 	<item component="ComponentInfo{com.step.taleblazer/com.step.taleblazer.TaleblazerActivity}" drawable="taleblazer"/>
 
