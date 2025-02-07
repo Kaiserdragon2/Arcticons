@@ -335,12 +335,6 @@
 	<item component="ComponentInfo{be.tweedehands.m/nl.marktplaats.android.features.homepage.SpringboardActivity}" drawable="number_circle_2"/>
 	<item component="ComponentInfo{be.tweedehands.m/com.horizon.android.feature.homepage.SpringboardActivity}" drawable="number_circle_2"/>
 
-
-	<!-- 2GIS -->
-	<item component="ComponentInfo{ru.dublgis.dgismobile/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis"/>
-	<item component="ComponentInfo{ru.dublgis.world2/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis"/>
-	<item component="ComponentInfo{com.dss.doublegis/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis"/>
-
 	<!-- 2gis beta -->
 	<item component="ComponentInfo{ru.dublgis.dgismobile4preview/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis_beta"/>
 
