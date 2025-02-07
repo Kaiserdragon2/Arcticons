@@ -150,7 +150,9 @@ jobs:
       PARSE_OUTPUT: ${{needs.check_appfilter.outputs.CommentPRtext}}
     steps:
       - name: Create Comment
-        run: echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
+        run: |
+          echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
+          
       - name: Make Comment
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
         env:
