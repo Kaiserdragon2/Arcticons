@@ -130,7 +130,7 @@ jobs:
         run: |
           if ! PARSE_OUTPUT=$(xmllint --noout newicons/appfilter.xml 2>&1) ; then
             echo "Parsing appfilter.xml failed."
-            echo -e "text=Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> "$GITHUB_OUTPUT"
+            echo -e "text=$PARSE_OUTPUT" >> "$GITHUB_OUTPUT"
             exit 1
           else
             echo "Parsing succeeded."
@@ -147,10 +147,12 @@ jobs:
     permissions:
       pull-requests: write # Required to comment on PRs
     env:
-      OutputComment: ${{needs.check_appfilter.outputs.CommentPRtext}}
+      PARSE_OUTPUT: ${{needs.check_appfilter.outputs.CommentPRtext}}
     steps:
-      - name: Make_a_Comment
-        run: gh pr comment ${{ github.event.pull_request.number }} --body "$OutputComment"
+      - name: Create Comment
+        run: echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
+      - name: Make Comment
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
   Update_Requests:
     if: ${{ github.repository == vars.REPOSITORY && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
     environment:
