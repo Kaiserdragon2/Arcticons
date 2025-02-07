@@ -327,10 +327,6 @@
 	<item component="ComponentInfo{com.twentythreeandme.app/com.twentythreeandme.app.nux.NuxIntroductionActivity}" drawable="_23andme"/>
 	<item component="ComponentInfo{com.twentythreeandme.app/com.twentythreeandme.app.start.StartActivity}" drawable="_23andme"/>
 
-	<!-- 24pay -->
-	<item component="ComponentInfo{com.twentyfourpay/com.twentyfourpay.screens.splashScreen.SplashScreenActivity}" drawable="_24pay"/>
-
-
 	<!-- 280blocker -->
 	<item component="ComponentInfo{com.tobila.android_280blocker/com.tobila.android_280blocker.view.MainActivity}" drawable="_280blocker">
 
