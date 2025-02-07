@@ -107,7 +107,7 @@ jobs:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     outputs:
-      CommentPRtext: ${{ steps.setcommentpr.outputs.text }}
+      CommentPRtext: ${{ steps.validate.outputs.text }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
       cancel-in-progress: true
@@ -147,6 +147,7 @@ jobs:
       - name: Create Comment
         run: |
           echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
+          ls
       - name: Make Comment
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md --repo ${{ github.repository }}
         env:
