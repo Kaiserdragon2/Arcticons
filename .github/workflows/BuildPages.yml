@@ -107,8 +107,8 @@ jobs:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     outputs:
-      CommentPR: ${{ steps.validate.outputs.text }}
-      CommentPRtext: ${{ steps.setcommentpr.outputs.bool }}
+      CommentPR: ${{ steps.validate.outputs.bool }}
+      CommentPRtext: ${{ steps.setcommentpr.outputs.text }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
       cancel-in-progress: true
@@ -142,7 +142,7 @@ jobs:
   comment_pr_check_appfilter:
     name: Comment on PR
     needs: ['check_appfilter']
-    if: ${{failure()}}
+    if: ${{ needs.check_appfilter.outputs.CommentPR == 'true' && failure()}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to comment on PRs
