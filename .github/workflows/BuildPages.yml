@@ -107,7 +107,6 @@ jobs:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     outputs:
-      CommentPR: ${{ steps.validate.outputs.bool }}
       CommentPRtext: ${{ steps.setcommentpr.outputs.text }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
@@ -135,14 +134,10 @@ jobs:
           else
             echo "Parsing succeeded."
           fi
-      - name: Post failure comment to PR
-        id: setcommentpr
-        if: failure()
-        run: echo "bool=true" >> "$GITHUB_OUTPUT"
   comment_pr_check_appfilter:
     name: Comment on PR
     needs: ['check_appfilter']
-    if: ${{ needs.check_appfilter.outputs.CommentPR == 'true' && failure()}}
+    if: ${{failure()}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to comment on PRs
