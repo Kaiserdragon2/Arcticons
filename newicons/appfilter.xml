@@ -332,9 +332,6 @@
 	<!-- 30 Day Fitness Challenge -->
 	<item component="ComponentInfo{com.popularapp.thirtydayfitnesschallenge/com.popularapp.thirtydayfitnesschallenge.revise.guide.splash.SplashActivity}" drawable="_30_day_fitness_challenge"/>
 
-	<!-- 34HD -->
-	<item component="ComponentInfo{com.amarintv.mobile/com.amarintv.mobile.MainActivity}" drawable="_34hd"/>
-
 	<!-- 360 Reality Audio Live -->
 	<item component="ComponentInfo{com.streamsoftinc.sony360ramobile/com.streamsoftinc.sony360ramobile.SplashScreenActivity}" drawable="_360_reality_audio_live"/>
 
