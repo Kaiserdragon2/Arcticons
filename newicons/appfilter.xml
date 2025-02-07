@@ -334,8 +334,6 @@
 	<!-- 280blocker -->
 	<item component="ComponentInfo{com.tobila.android_280blocker/com.tobila.android_280blocker.view.MainActivity}" drawable="_280blocker">
 
-	<!-- 2D Live TPIT -->
-	<item component="ComponentInfo{com.san.live2d.mm/com.san.live2d.mm.MainActivity}" drawable="_2d"/>
 
 	<!-- 2de hands -->
 	<item component="ComponentInfo{be.tweedehands.m/nl.marktplaats.android.features.homepage.SpringboardActivity}" drawable="number_circle_2"/>
