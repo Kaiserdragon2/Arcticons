@@ -142,7 +142,7 @@ jobs:
   comment_pr_check_appfilter:
     name: Comment on PR
     needs: ['check_appfilter']
-    if: ${{needs.check_appfilter.outputs.CommentPR == 'true' && failure()}}
+    if: ${{failure()}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to comment on PRs
