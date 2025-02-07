@@ -323,10 +323,6 @@
 	<item component="ComponentInfo{com.inspiredsquare.jupiter/com.google.firebase.MessagingUnityPlayerActivity}" drawable="_2248"/>
 	<item component="ComponentInfo{com.oakgames.linked2248.numberpuzzle/com.unity3d.player.UnityPlayerActivity}" drawable="_2248"/>
 
-	<!-- 23andMe -->
-	<item component="ComponentInfo{com.twentythreeandme.app/com.twentythreeandme.app.nux.NuxIntroductionActivity}" drawable="_23andme"/>
-	<item component="ComponentInfo{com.twentythreeandme.app/com.twentythreeandme.app.start.StartActivity}" drawable="_23andme"/>
-
 	<!-- 280blocker -->
 	<item component="ComponentInfo{com.tobila.android_280blocker/com.tobila.android_280blocker.view.MainActivity}" drawable="_280blocker">
 
