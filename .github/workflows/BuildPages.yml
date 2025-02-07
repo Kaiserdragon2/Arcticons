@@ -153,6 +153,8 @@ jobs:
         run: echo -e "Parsing of 'newicons/appfilter.xml' failed. Please fix the XML syntax errors. \n \`\`\` \n $PARSE_OUTPUT \n \`\`\`" >> comment_markdown.md
       - name: Make Comment
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file comment_markdown.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Update_Requests:
     if: ${{ github.repository == vars.REPOSITORY && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
     environment:
