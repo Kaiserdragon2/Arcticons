@@ -326,11 +326,6 @@
 	<!-- 280blocker -->
 	<item component="ComponentInfo{com.tobila.android_280blocker/com.tobila.android_280blocker.view.MainActivity}" drawable="_280blocker">
 
-
-	<!-- 2de hands -->
-	<item component="ComponentInfo{be.tweedehands.m/nl.marktplaats.android.features.homepage.SpringboardActivity}" drawable="number_circle_2"/>
-	<item component="ComponentInfo{be.tweedehands.m/com.horizon.android.feature.homepage.SpringboardActivity}" drawable="number_circle_2"/>
-
 	<!-- 2gis beta -->
 	<item component="ComponentInfo{ru.dublgis.dgismobile4preview/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis_beta"/>
 
