@@ -335,9 +335,6 @@
 	<item component="ComponentInfo{be.tweedehands.m/nl.marktplaats.android.features.homepage.SpringboardActivity}" drawable="number_circle_2"/>
 	<item component="ComponentInfo{be.tweedehands.m/com.horizon.android.feature.homepage.SpringboardActivity}" drawable="number_circle_2"/>
 
-	<!-- 2FAS Auth -->
-	<item component="ComponentInfo{com.twofasapp/com.twofasapp.start.ui.start.StartActivity}" drawable="_2fas_auth"/>
-	<item component="ComponentInfo{com.twofasapp/com.twofasapp.ui.main.StartActivity}" drawable="_2fas_auth"/>
 
 	<!-- 2GIS -->
 	<item component="ComponentInfo{ru.dublgis.dgismobile/ru.dublgis.dgismobile.GrymMobileActivity}" drawable="_2gis"/>
