@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-	<!-- Bamboo -->
-	<item component="ComponentInfo{com.invest.bamboo/com.invest.bamboo.MainActivity}" drawable="bamboo" />
-
 	<!-- Risevest -->
 	<item component="ComponentInfo{com.rise.mobile/com.rise.mobile.MainActivity}" drawable="risevest"/>
 
