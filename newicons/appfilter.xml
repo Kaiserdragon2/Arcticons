@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-	<!-- Risevest -->
-	<item component="ComponentInfo{com.rise.mobile/com.rise.mobile.MainActivity}" drawable="risevest"/>
-
 	<!-- Wispr Flow -->
 	<item component="ComponentInfo{com.wispr.flowapp/com.wispr.flowapp.activity.MainActivity}" drawable="wispr_flow"/>
 
