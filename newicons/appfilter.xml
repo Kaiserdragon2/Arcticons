@@ -2,7 +2,7 @@
 <resources>
 
 	<!-- Wispr Flow -->
-	<item component="ComponentInfo{com.wispr.flowapp/com.wispr.flowapp.activity.MainActivity}" drawable="wispr_flow"/>
+	<item component="ComponentInfo{com.wispr.flowapp/com.wispr.flowapp.activity.MainActivity}" drawable="wispr_flow"/
 
 	<!-- UpScrolled -->
 	<item component="ComponentInfo{com.upscrolled.app/com.upscrolled.app.MainActivity}" drawable="upscrolled"/>
