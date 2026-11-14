@@ -1,4 +1,5 @@
 name: Build Pages
+
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
@@ -6,6 +7,7 @@ on:
       - main
     paths:
       - 'newicons/appfilter.xml'
+      - 'newicons/**.svg'
   push:
     branches: ['Arcticons-Pages', 'main']
     paths:
@@ -130,7 +132,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          allow-unsafe-pr-checkout: true
+          persist-credentials: false
           sparse-checkout: |
             newicons/appfilter.xml
           sparse-checkout-cone-mode: false
@@ -151,6 +153,7 @@ jobs:
           else
             echo "Parsing succeeded."
           fi
+
   check_appfilter_and_icons:
     name: Run Checks
     if: github.event_name == 'pull_request_target'
@@ -162,9 +165,6 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}-check
       cancel-in-progress: true
-    env:
-      # Never share Gradle caches between workflow runs.
-      GRADLE_USER_HOME: ${{ runner.temp }}/gradle-home
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -179,14 +179,14 @@ jobs:
           persist-credentials: false
           sparse-checkout: |
             newicons/appfilter.xml
-            newicons/*svg
+            newicons/*.svg
           sparse-checkout-cone-mode: false
           path: temp-pr
       - name: Populate newicons folder
         shell: bash
         run: |
           rm -rf newicons
-          mkdir newicons
+          mkdir -p newicons
           find temp-pr/newicons -maxdepth 1 -type f \( -name 'appfilter.xml' -o -name '*.svg' \) -exec cp -- {} newicons/ \;
           rm -rf temp-pr
       - name: Setup Java
@@ -209,14 +209,23 @@ jobs:
             echo "text<<EOF" >> "$GITHUB_OUTPUT"
             echo "$FILTERED_OUTPUT" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
+            mkdir -p failure_logs
+            echo "$FILTERED_OUTPUT" > failure_logs/error_output.txt
             exit 1
           else
             echo "Checks succeeded."
           fi
+      - name: Upload Failure Artifact
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: pr-check-failure
+          path: failure_logs/error_output.txt
+
   comment_pr_check_appfilter:
     name: Comment on PR
     needs: ['check_appfilter','check_appfilter_and_icons']
-    if: ${{failure()}}
+    if: ${{ failure() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to comment on PRs
@@ -503,7 +512,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python .github/workflows/combine_appfilter.py
-      - name: Move combinded Appfilter
+      - name: Move combined Appfilter
         run: |
           mv combined_appfilter.json docs/assets/combined_appfilter.json
           mv package_map.json docs/assets/package_map.json
