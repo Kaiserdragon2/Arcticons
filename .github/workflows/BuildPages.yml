@@ -225,7 +225,7 @@ jobs:
   comment_pr_check_appfilter:
     name: Comment on PR
     needs: ['check_appfilter','check_appfilter_and_icons']
-    if: ${{ failure() && github.event_name == 'pull_request' }}
+    if: ${{ failure() && github.event_name == 'pull_request_target' }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to comment on PRs
