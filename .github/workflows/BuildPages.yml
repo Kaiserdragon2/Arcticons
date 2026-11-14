@@ -186,7 +186,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
-          cache: gradle
+          cache: ''
       - name: Get Gradle
         run: gradle wrapper
       - name: Grant execute permission for gradlew
