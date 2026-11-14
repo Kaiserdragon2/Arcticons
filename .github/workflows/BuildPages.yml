@@ -1,7 +1,7 @@
 name: Build Pages
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened]
     branches:
       - main
@@ -120,7 +120,7 @@ jobs:
           git push
   check_appfilter:
     name: Check appfilter.xml from pull_request
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     outputs:
       CommentPRtext: ${{ steps.validate.outputs.text }}
@@ -156,7 +156,7 @@ jobs:
 
   check_appfilter_and_icons:
     name: Run Checks
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     permissions:
       contents: read
