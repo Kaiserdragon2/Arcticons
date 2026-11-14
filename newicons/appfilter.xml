@@ -14,7 +14,7 @@
 	<item component="ComponentInfo{com.barnabas.absorb/com.barnabas.absorb.MainActivity}" drawable="absorb"/>
 
 	<!-- Take Take Take -->
-	<item component="ComponentInfo{com.taketaketake.mate/com.taketaketake.mate.MainActivity}" drawable="take_take_take"/>
+	<item component="ComponentInfo{com.taketaketake.mate/com.taketaketake.mate.MainActivity}" drawable="take_take_take">
 
 	<!-- #C-pla -->
 	<item component="ComponentInfo{li.yapp.appAF4B724D/li.yapp.sdk.YLSplashActivity}" drawable="c_pla"/>
