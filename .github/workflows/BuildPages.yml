@@ -134,7 +134,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         run: |
           # Search for the PR associated with this exact head commit SHA
-          PR_NUMBER=$(gh pr list --repo "$REPOSITORY" --state open --json number,headSha --jq ".[] | select(.headSha == \"$HEAD_SHA\") | .number")
+          PR_NUMBER=$(gh pr list --repo "$REPOSITORY" --state open --json number,headRefOid --jq ".[] | select(.headRefOid == \"$HEAD_SHA\") | .number")
           
           if [ -z "$PR_NUMBER" ]; then
             # Fallback: try searching by head branch if needed
