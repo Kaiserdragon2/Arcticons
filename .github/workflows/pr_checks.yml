@@ -15,6 +15,7 @@ permissions:
 jobs:
   check_appfilter:
     name: Check appfilter.xml from pull_request
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       CommentPRtext: ${{ steps.validate.outputs.text }}
@@ -22,8 +23,8 @@ jobs:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
       cancel-in-progress: true
     steps:
-      - name: Checkout PR Branch Sparse
-        uses: actions/checkout@v4
+      - name: Checkout Repository ${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
@@ -50,6 +51,7 @@ jobs:
 
   check_appfilter_and_icons:
     name: Run Checks
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,22 +61,23 @@ jobs:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}-check
       cancel-in-progress: true
     steps:
-      - name: Checkout Main Branch (Trusted Environment)
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v7
         with:
-          ref: ${{ vars.MAIN_BRANCH }}
+          ref: ${{vars.MAIN_BRANCH}}
           persist-credentials: false
-      - name: Checkout PR Files (Temp)
-        uses: actions/checkout@v4
+      - name: Checkout Repository ${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true
           persist-credentials: false
           sparse-checkout: |
             newicons/appfilter.xml
             newicons/*.svg
           sparse-checkout-cone-mode: false
           path: temp-pr
-      - name: Populate newicons folder with PR files
+      - name: Populate newicons folder
         shell: bash
         run: |
           rm -rf newicons
@@ -82,11 +85,12 @@ jobs:
           find temp-pr/newicons -maxdepth 1 -type f \( -name 'appfilter.xml' -o -name '*.svg' \) -exec cp -- {} newicons/ \;
           rm -rf temp-pr
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: 21
-      - name: Get Gradle Wrapper
+
+      - name: Get Gradle
         run: gradle wrapper
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -100,15 +104,10 @@ jobs:
             echo "text<<EOF" >> "$GITHUB_OUTPUT"
             echo "$FILTERED_OUTPUT" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
-            mkdir -p failure_logs
-            echo "$FILTERED_OUTPUT" > failure_logs/error_output.txt
             exit 1
           else
             echo "Checks succeeded."
           fi
-      - name: Upload Failure Artifact
-        if: failure()
-
 
   comment_pr_check_appfilter:
     name: Comment on PR
@@ -137,7 +136,7 @@ jobs:
             echo '```' >> comment_markdown.md
           fi
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pr-check-failure
           path: comment_markdown.md
