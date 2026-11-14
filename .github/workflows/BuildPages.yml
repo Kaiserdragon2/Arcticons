@@ -155,46 +155,55 @@ jobs:
     name: Run Checks
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       CommentPRtext: ${{ steps.validate.outputs.text }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}-check
       cancel-in-progress: true
+    env:
+      # Never share Gradle caches between workflow runs.
+      GRADLE_USER_HOME: ${{ runner.temp }}/gradle-home
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
         with:
           ref: ${{vars.MAIN_BRANCH}}
+          persist-credentials: false
       - name: Checkout Repository ${{ github.event.pull_request.user.login }}/${{ github.event.pull_request.head.ref }}
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           allow-unsafe-pr-checkout: true
+          persist-credentials: false
           sparse-checkout: |
             newicons/appfilter.xml
             newicons/*svg
           sparse-checkout-cone-mode: false
           path: temp-pr
       - name: Populate newicons folder
+        shell: bash
         run: |
           rm -rf newicons
           mkdir newicons
-          cp -r temp-pr/newicons/. newicons/
+          find temp-pr/newicons -maxdepth 1 -type f \( -name 'appfilter.xml' -o -name '*.svg' \) -exec cp -- {} newicons/ \;
           rm -rf temp-pr
       - name: Setup Java
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: 21
-          cache: ''
+
       - name: Get Gradle
         run: gradle wrapper
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run checks
         id: validate
+        shell: bash
         run: |
-          if ! PARSE_OUTPUT=$(./gradlew checkonly 2>&1 >/dev/null) ; then
+          if ! PARSE_OUTPUT=$(./gradlew checkonly --no-build-cache --no-configuration-cache --no-daemon 2>&1 >/dev/null) ; then
             echo "Checks failed."
             FILTERED_OUTPUT=$(echo "$PARSE_OUTPUT" | sed -n '/============================================================/,/Total Failures:/p')
             echo "text<<EOF" >> "$GITHUB_OUTPUT"
