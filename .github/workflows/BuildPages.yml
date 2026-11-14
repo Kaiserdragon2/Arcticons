@@ -130,14 +130,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           # Search for the PR associated with this exact head commit SHA
-          PR_NUMBER=$(gh pr list --repo "${{ github.repository }}" --state open --json number,headSha --jq ".[] | select(.headSha == \"$HEAD_SHA\") | .number")
+          PR_NUMBER=$(gh pr list --repo "$REPOSITORY" --state open --json number,headSha --jq ".[] | select(.headSha == \"$HEAD_SHA\") | .number")
           
           if [ -z "$PR_NUMBER" ]; then
             # Fallback: try searching by head branch if needed
-            HEAD_BRANCH="${{ github.event.workflow_run.head_branch }}"
-            PR_NUMBER=$(gh pr list --repo "${{ github.repository }}" --state open --head "$HEAD_BRANCH" --json number --jq ".[0].number")
+            PR_NUMBER=$(gh pr list --repo "$REPOSITORY" --state open --head "$HEAD_BRANCH" --json number --jq ".[0].number")
           fi
 
           if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
@@ -150,13 +151,15 @@ jobs:
       - name: Post Comment to PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          if [ -z "${{ env.PR_NUMBER }}" ]; then
+          if [ -z "$PR_NUMBER" ]; then
             echo "No PR number available."
             exit 0
           fi
 
-          gh pr comment "${{ env.PR_NUMBER }}" --body-file comment_markdown.md --repo "${{ github.repository }}"
+          gh pr comment "$PR_NUMBER" --body-file comment_markdown.md --repo "$REPOSITORY"
 
   Update_Requests:
     if: ${{ github.repository == vars.REPOSITORY && ( inputs.run_Request_Update == true || github.event_name == 'schedule') && vars.AUTOMATIC_UPDATE == 'true' }}
