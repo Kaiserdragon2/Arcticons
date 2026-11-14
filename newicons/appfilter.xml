@@ -14,7 +14,7 @@
 	<item component="ComponentInfo{com.preply/com.preply.MainActivity}" drawable="preply"/>
 
 	<!-- Sefirah -->
-	<item component="ComponentInfo{com.castle.sefirah/com.castle.sefirah.MainActivity}" drawable="sefirah"/>
+	<item component="ComponentInfo{com.castle.sefirah/com.castle.sefirah.MainActivity}" drawable="sefirah">
 
 	<!-- HAAK -->
 	<item component="ComponentInfo{com.blingame.haaktestb/com.blingame.haakg.MainActivity}" drawable="haak"/>
